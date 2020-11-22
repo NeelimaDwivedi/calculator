@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calculator</title>
+    <link type="text/css" rel="stylesheet" href="style.css?t=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+              var num="";
+              var flag=0;
+              var reslt=0;
+              var opr="+";
+
+            $(".btn").click(function(e){
+                if($(this).val()=="AC"){
+                  $('#result').val('');
+                  num="";
+                  reslt=0;
+                  opr="+";
+                  flag=0;
+                  return;
+                }
+
+                if($(this).val() == "+" || $(this).val()== '-' || $(this).val() == '/' || $(this).val() == '*' || $(this).val() == '=' ){
+                flag=1;
+                var oprt;
+                var numbr;
+                numbr=Number(num);
+                console.log(num);
+                num="";
+                oprt=$(this).val();
+                e.preventDefault();
+              $.ajax({
+                url:'ajax.php',
+                type:'POST',
+                data:{'number':numbr, 'operator':oprt, 'result':reslt, 'operator1':opr},
+                success:function(result)
+                {
+                  var display = JSON.parse(result);
+                  //result1=par['res'];
+                  $('#result').val(display['res']);
+                  if(display['operator']=="="){
+                    reslt=display['res'];
+                    opr="";
+                  }else{
+                     opr=display['operator'];
+                     reslt=display['res'];
+                  }
+
+                },
+                error:function(){
+                  alert("error");
+                }
+
+              });
+
+
+              }
+              else{
+
+                  if(flag==0){
+                    num+=$(this).val();
+                    $("#result").val(num);
+                  }
+                else{
+                  $("#result").val('');
+                  num=$(this).val();
+                  $("#result").val(num);
+                  flag=0;
+                }
+
+              }
+
+            });
+          });
+    </script>
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="calculator">
+            <h1>Calculator</h1>
+            <table>
+                <tr>
+                    <td colspan="4"><input type="text" id="result" value=""></td>
+                </tr>
+                <tr>
+                    <td><button id="button1" class="btn" value="1">1</button></td>
+                    <td><button id="button2" class="btn" value="2">2</button></td>
+                    <td><button id="button3" class="btn" value="3">3</button></td>
+                    <td><button id="clr" class="btn" value="AC">AC</button></td>
+
+                </tr>
+                <tr>
+                    <td><button id="button4" class="btn" value="4">4</button></td>
+                    <td><button id="button5" class="btn" value="5">5</button></td>
+                    <td><button id="button6" class="btn" value="6">6</button></td>
+                    <td><button id="button=" class="btn" value="=">=</button></td>
+                </tr>
+                <tr>
+                    <td><button id="button7" class="btn" value="7">7</button></td>
+                    <td><button id="button8" class="btn" value="8">8</button></td>
+                    <td><button id="button9" class="btn" value="9">9</button></td>
+                    <td><button id="button+" class="btn" value="+">+</button></td>
+                </tr>
+                <tr>
+                    <td><button id="button0" class="btn" value="0">0</button></td>
+                    <td><button id="button/" class="btn" value="/">/</button></td>
+                    <td><button id="button*" class="btn" value="*">*</button></td>
+                    <td><button id="button-" class="btn" value="-">-</button></td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>

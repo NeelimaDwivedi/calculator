@@ -1,0 +1,20 @@
+#calculator {
+    padding-left: 500px;
+    padding-top: 90px;
+}
+table input[type=text] {
+    border:none
+}
+table {
+    border: 1px solid black;
+}
+
+table tr td {
+    border: 2px solid black;
+    padding: 20px;
+}
+
+table tr td button {
+    background: none;
+    border: none;
+}
